@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>EverQR | Profesional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; display: flex; justify-content: center; padding: 40px 20px; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 400px; transition: border 0.3s ease; border: 2px solid transparent; }
+        .card.success { border-color: #10B981; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #e5e7eb; border-radius: 10px; box-sizing: border-box; }
+        
+        .options-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; padding: 5px 0; }
+        
+        .style-option { width: 65px; height: 65px; border: 2px solid #e5e7eb; border-radius: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; background: white; transition: all 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .style-option.active { border-color: #2563eb; background-color: #eff6ff; transform: scale(1.05); }
+        .style-option svg { width: 45px; height: 45px; }
+        
+        #canvas { display: flex; justify-content: center; margin: 20px 0; }
+        .btn { background-color: #000; color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: 600; margin-bottom: 10px; }
+        label { font-size: 14px; font-weight: 600; color: #374151; display: block; margin-top: 10px; }
+        
+        /* Estilo para el soporte */
+        .support-text { text-align: center; font-size: 13px; color: #6b7280; margin-top: 15px; }
+        .support-text a { color: #2563eb; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<div class="card" id="mainCard">
+    <h1>EverQR</h1>
+    <input type="text" id="inputTexto" placeholder="Pega tu enlace aquí...">
+    
+    <label>Color del código:</label>
+    <input type="color" id="colorQr" value="#000000" oninput="actualizarVisual()">
+
+    <label>Estilo de diseño:</label>
+    <div class="options-grid">
+        <div class="style-option active" onclick="selectStyle('square', this)"><svg viewBox="0 0 10 10"><rect width="4" height="4" x="1" y="1"/><rect width="4" height="4" x="5" y="1"/><rect width="4" height="4" x="1" y="5"/><rect width="4" height="4" x="5" y="5"/></svg></div>
+        <div class="style-option" onclick="selectStyle('dots', this)"><svg viewBox="0 0 10 10"><circle cx="3" cy="3" r="2"/><circle cx="7" cy="3" r="2"/><circle cx="3" cy="7" r="2"/><circle cx="7" cy="7" r="2"/></svg></div>
+        <div class="style-option" onclick="selectStyle('rounded', this)"><svg viewBox="0 0 10 10"><rect width="3.5" height="3.5" x="1.5" y="1.5" rx="1"/><rect width="3.5" height="3.5" x="5" y="1.5" rx="1"/><rect width="3.5" height="3.5" x="1.5" y="5" rx="1"/><rect width="3.5" height="3.5" x="5" y="5" rx="1"/></svg></div>
+        <div class="style-option" onclick="selectStyle('extra-rounded', this)"><svg viewBox="0 0 10 10"><circle cx="3" cy="3" r="2.5"/><circle cx="7" cy="3" r="2.5"/><circle cx="3" cy="7" r="2.5"/><circle cx="7" cy="7" r="2.5"/></svg></div>
+        <div class="style-option" onclick="selectStyle('classy', this)"><svg viewBox="0 0 10 10"><rect width="4" height="4" x="1" y="1" rx="0.5"/><rect width="4" height="4" x="5" y="5" rx="0.5"/><path d="M5 1h4v4h-4z" fill="#000"/></svg></div>
+    </div>
+
+    <button class="btn" onclick="generarQR()">Crear Código QR</button>
+    <div id="canvas"></div>
+    <button class="btn" style="background-color: #2563eb;" onclick="descargarQR()">Descargar</button>
+    
+    <div class="support-text">
+        contactar <a href="mailto:eliangg.esdlt@gmail.com"><b>soporte</b></a>
+    </div>
+</div>
+
+<script>
+    let selectedStyle = 'square';
+    const qrCode = new QRCodeStyling({ 
+        width: 250, 
+        height: 250, 
+        data: "https://everqr.onrender.com", 
+        dotsOptions: { color: "#000", type: "square" } 
+    });
+    qrCode.append(document.getElementById("canvas"));
+
+    function selectStyle(style, element) {
+        selectedStyle = style;
+        document.querySelectorAll('.style-option').forEach(el => el.classList.remove('active'));
+        element.classList.add('active');
+        actualizarVisual();
+    }
+
+    function actualizarVisual() {
+        qrCode.update({ 
+            data: document.getElementById("inputTexto").value || "https://everqr.onrender.com",
+            dotsOptions: { color: document.getElementById("colorQr").value, type: selectedStyle } 
+        });
+    }
+
+    function generarQR() {
+        actualizarVisual();
+        const card = document.getElementById("mainCard");
+        card.classList.add("success");
+        setTimeout(() => card.classList.remove("success"), 300);
+    }
+
+    function descargarQR() { qrCode.download({ name: "mi-everqr", extension: "png" }); }
+</script>
+</body>
+</html>
