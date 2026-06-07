@@ -19,6 +19,9 @@
         
         #canvas { display: flex; justify-content: center; margin: 20px 0; }
         .btn { background-color: #000; color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: 600; margin-bottom: 10px; }
+        /* Nuevo estilo para el botón de descarga de la app */
+        .btn-download { background-color: #ffc402; color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; width: 94%; font-weight: 600; margin-bottom: 10px; text-decoration: none; display: block; text-align: center; }
+        
         label { font-size: 14px; font-weight: 600; color: #374151; display: block; margin-top: 10px; }
         
         /* Estilo para el soporte */
@@ -48,7 +51,10 @@
 
     <button class="btn" onclick="generarQR()">Crear Código QR</button>
     <div id="canvas"></div>
-    <button class="btn" style="background-color: #2563eb;" onclick="descargarQR()">Descargar</button>
+    <button class="btn" style="background-color: #2563eb;" onclick="descargarQR()">Descargar QR</button>
+    
+    <!-- Botón de descarga de la App (Reemplaza TU_ENLACE_AQUI por el de tu carpeta de Drive) -->
+    <a href="https://drive.google.com/drive/folders/1_-Zx_FduPNhyk-lSryiHlW5j3N5WomRl?usp=drive_link" target="_blank" class="btn-download">Descargar EverQR</a>
     
     <div class="support-text">
         contactar <a href="mailto:eliangg.esdlt@gmail.com"><b>soporte</b></a>
